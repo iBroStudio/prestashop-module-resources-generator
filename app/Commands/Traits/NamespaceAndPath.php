@@ -6,6 +6,8 @@ use Illuminate\Support\Str;
 
 trait NamespaceAndPath
 {
+    protected ?string $directory = null;
+
     protected function rootNamespace(): string
     {
         $composer = json_decode((string) file_get_contents(getcwd().'/composer.json'), true);
@@ -19,8 +21,12 @@ trait NamespaceAndPath
 
     protected function getPath($name): string
     {
-        $name = Str::replaceFirst($this->rootNamespace(), '', $name);
+        if (! is_null($this->directory)) {
+            return getcwd().'/src/Api/'.$this->directory.'/'.$this->getNameInput().'.php';
+        } else {
+            $name = Str::replaceFirst($this->rootNamespace(), '', $name);
 
-        return getcwd().'/'.str_replace('\\', '/', $name).'.php';
+            return getcwd().'/src/'.str_replace('\\', '/', $name).'.php';
+        }
     }
 }

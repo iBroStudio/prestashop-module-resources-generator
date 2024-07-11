@@ -20,9 +20,7 @@ class MakeApi extends GeneratorCommand
 
     protected $type = 'Api client';
 
-    protected string $directory;
-
-    protected function getNameInput(): string
+    public function handle(): ?bool
     {
         $this->directory = Str::of(parent::getNameInput())
             ->lower()
@@ -31,7 +29,13 @@ class MakeApi extends GeneratorCommand
             })
             ->title();
 
-        return Str::of($this->directory)->append('Api');
+        return parent::handle();
+    }
+
+    protected function getNameInput(): string
+    {
+        return Str::of($this->directory)
+            ->append('Api');
     }
 
     protected function getDefaultNamespace($rootNamespace): string
@@ -66,7 +70,7 @@ class MakeApi extends GeneratorCommand
 
     protected function getStub(): string
     {
-        return getcwd().'/stubs/api.stub';
+        return base_path('stubs/api.stub');
     }
 
     protected function getArguments(): array

@@ -15,7 +15,7 @@ enum ApiAuthManagers: string
             self::BASIC => 'Bearer Authentication',
             self::BEARER => 'Basic Authentication',
             self::HEADER => 'Header Authentication',
-            self::NONE => 'Header Authentication',
+            self::NONE => 'No Authentication',
         };
     }
 

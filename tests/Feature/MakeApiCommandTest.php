@@ -11,9 +11,9 @@ it('can generate api with auth', function () {
         ->expectsQuestion('Authentication type?', ApiAuthManagers::BEARER->label())
         ->assertExitCode(Command::SUCCESS);
 
-    expect(getcwd().'/Api/TestApi/TestApi.php')->toBeFile()
+    expect(getcwd().'/src/Api/Test/TestApi.php')->toBeFile()
         ->and(
-            file_get_contents(getcwd().'/Api/TestApi/TestApi.php')
+            file_get_contents(getcwd().'/src/Api/Test/TestApi.php')
         )->toContain('final class TestApi extends ApiClient')
         ->toContain('const AUTH = '.ApiAuthManagers::BEARER->value.'::class;');
 });
@@ -23,9 +23,9 @@ it('can generate api without auth', function () {
         ->expectsQuestion('Authentication type?', ApiAuthManagers::NONE->label())
         ->assertExitCode(Command::SUCCESS);
 
-    expect(getcwd().'/Api/TestApi/TestApi.php')->toBeFile()
+    expect(getcwd().'/src/Api/Test/TestApi.php')->toBeFile()
         ->and(
-            file_get_contents(getcwd().'/Api/TestApi/TestApi.php')
+            file_get_contents(getcwd().'/src/Api/Test/TestApi.php')
         )->toContain('final class TestApi extends ApiClient')
         ->toContain('const AUTH = '.ApiAuthManagers::NONE->value.';');
 });

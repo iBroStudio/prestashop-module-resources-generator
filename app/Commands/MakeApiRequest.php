@@ -57,10 +57,10 @@ class MakeApiRequest extends GeneratorCommand
         if ($this->method === ApiRequestMethods::GET->value
             && $this->confirm('Does this request need arguments?')
         ) {
-            return getcwd()."/stubs/api-{$this->method}-request-with-args.stub";
+            return base_path("stubs/api-{$this->method}-request-with-args.stub");
         }
 
-        return getcwd()."/stubs/api-{$this->method}-request.stub";
+        return base_path("stubs/api-{$this->method}-request.stub");
     }
 
     protected function getArguments(): array
