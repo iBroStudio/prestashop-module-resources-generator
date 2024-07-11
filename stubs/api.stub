@@ -1,0 +1,10 @@
+<?php
+
+namespace {{ namespace }};
+
+use IBroStudio\ModuleHelper\Api\ApiClient;{{ use_authenticator }}
+
+final class DummyClass extends ApiClient
+{
+    const AUTH = DummyAuthenticatorClass;
+}

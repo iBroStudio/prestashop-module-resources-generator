@@ -1,0 +1,16 @@
+<?php
+
+namespace {{ namespace }};
+
+use Saloon\Enums\Method;
+use Saloon\Http\Request;
+
+class DummyClass extends Request
+{
+    protected Method $method = Method::GET;
+
+    public function resolveEndpoint(): string
+    {
+        return '/--api_endpoint--';
+    }
+}
