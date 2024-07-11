@@ -4,7 +4,7 @@
 .phpunit.result.cache
 .vscode
 Api
-build
+builds
 composer.lock
 coverage
 docs
