@@ -13,12 +13,12 @@
         }
     ],
     "require": {
-        "php": "^8.2.0",
-        "laravel-zero/framework": "^11.0.0",
-        "laravel-zero/phar-updater": "^1.4"
+        "php": "^8.2.0"
     },
     "require-dev": {
         "laravel/pint": "^1.15.2",
+        "laravel-zero/framework": "^11.0.0",
+        "laravel-zero/phar-updater": "^1.4",
         "larastan/larastan": "^2.0.1",
         "mockery/mockery": "^1.6.11",
         "pestphp/pest": "^2.34.7",
@@ -48,7 +48,7 @@
         "test-f": "vendor/bin/pest --filter",
         "test-coverage": "vendor/bin/pest --coverage",
         "format": "vendor/bin/pint",
-        "build": "@php presta app:build presta"
+        "build": "@php presta-generator app:build presta-generator"
     },
     "config": {
         "preferred-install": "dist",
@@ -61,5 +61,5 @@
     },
     "minimum-stability": "stable",
     "prefer-stable": true,
-    "bin": ["presta"]
+    "bin": ["builds/presta-generator"]
 }
