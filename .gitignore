@@ -3,12 +3,12 @@
 .phpunit.cache
 .phpunit.result.cache
 .vscode
-Api
 composer.lock
 coverage
 docs
 node_modules
 phpunit.xml
 phpstan.neon
+src
 testbench.yaml
 vendor
