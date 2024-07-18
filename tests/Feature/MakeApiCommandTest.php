@@ -14,7 +14,9 @@ it('can generate api with auth', function () {
     expect(getcwd().'/src/Api/Test/TestApi.php')->toBeFile()
         ->and(
             file_get_contents(getcwd().'/src/Api/Test/TestApi.php')
-        )->toContain('final class TestApi extends ApiClient')
+        )
+        ->toContain('namespace PrestaShop\Module\ModuleName\Api\Test;')
+        ->toContain('final class TestApi extends ApiClient')
         ->toContain('const AUTH = '.ApiAuthManagers::BEARER->value.'::class;');
 });
 

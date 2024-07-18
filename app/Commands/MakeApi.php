@@ -40,7 +40,7 @@ class MakeApi extends GeneratorCommand
 
     protected function getDefaultNamespace($rootNamespace): string
     {
-        return $rootNamespace.'\\Api\\'.$this->getNameInput();
+        return $rootNamespace.'\\Api\\'.Str::studly($this->directory);
     }
 
     protected function replaceClass($stub, $name): array|string
