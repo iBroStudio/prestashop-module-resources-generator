@@ -19,10 +19,44 @@ trait NamespaceAndPath
         return $namespace;
     }
 
+    protected function getModuleTranslationDomain(): string
+    {
+        return class_basename($this->rootNamespace());
+    }
+
+    protected function getModuleUpperSnake(): string
+    {
+        return Str::of(class_basename($this->rootNamespace()))
+            ->snake()
+            ->upper()
+            ->toString();
+    }
+
+    protected function getModuleLowerSnake(): string
+    {
+        return Str::of(class_basename($this->rootNamespace()))
+            ->snake()
+            ->lower()
+            ->toString();
+    }
+
+    protected function getNameLowerSnake(): string
+    {
+        return Str::of($this->getNameInput())
+            ->snake()
+            ->lower()
+            ->toString();
+    }
+
+    protected function getModuleDirectory(): string
+    {
+        return Str::afterLast(getcwd(), '/');
+    }
+
     protected function getPath($name): string
     {
         if (! is_null($this->directory)) {
-            return getcwd().'/src/Api/'.$this->directory.'/'.$this->getNameInput().'.php';
+            return getcwd().'/src/'.$this->directory.'/'.$this->getNameInput().'.php';
         } else {
             $name = Str::replaceFirst($this->rootNamespace(), '', $name);
 

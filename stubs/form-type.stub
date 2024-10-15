@@ -1,0 +1,21 @@
+<?php
+
+declare(strict_types=1);
+
+namespace {{ namespace }};
+
+use PrestaShopBundle\Form\Admin\Type\TranslatorAwareType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\FormBuilderInterface;
+
+class DummyClass extends TranslatorAwareType
+{
+    public function buildForm(FormBuilderInterface $builder, array $options): void
+    {
+        $builder
+            ->add('field_name', TextType::class, [
+                'label' => $this->trans('Field label', 'Modules.{{ translation_domain }}.Admin'),
+                'help' => $this->trans('Maximum 32 characters', 'Modules.{{ translation_domain }}.Admin'),
+            ]);
+    }
+}

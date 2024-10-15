@@ -1,0 +1,57 @@
+<?php
+
+declare(strict_types=1);
+
+namespace {{ namespace }};
+
+use PrestaShop\PrestaShop\Core\Configuration\DataConfigurationInterface;
+use PrestaShop\PrestaShop\Core\ConfigurationInterface;
+
+final class DummyClass implements DataConfigurationInterface
+{
+    public const KEY1 = '{{ MODULE_CONFIG }}_KEY1';
+
+    public const CONFIG_MAXLENGTH = 32;
+
+    /**
+     * @var ConfigurationInterface
+     */
+    private $configuration;
+
+    public function __construct(ConfigurationInterface $configuration)
+    {
+        $this->configuration = $configuration;
+    }
+
+    public function getConfiguration(): array
+    {
+        return [
+            'field_name' => $this->configuration->get(static::KEY1),
+        ];
+    }
+
+    public function updateConfiguration(array $configuration): array
+    {
+        $errors = [];
+
+        if ($this->validateConfiguration($configuration)) {
+            if (strlen($configuration['field_name']) <= static::CONFIG_MAXLENGTH) {
+                $this->configuration->set(static::KEY1, $configuration['field_name']);
+            } else {
+                $errors[] = 'KEY1 value is too long';
+            }
+        }
+
+        return $errors;
+    }
+
+    /**
+     * Ensure the parameters passed are valid.
+     *
+     * @return bool Returns true if no exception are thrown
+     */
+    public function validateConfiguration(array $configuration): bool
+    {
+        return isset($configuration['field_name']);
+    }
+}

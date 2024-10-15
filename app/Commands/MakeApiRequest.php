@@ -49,7 +49,8 @@ class MakeApiRequest extends GeneratorCommand
             })
             ->title()
             ->prepend(Str::ucfirst($this->method))
-            ->append('Request');
+            ->append('Request')
+            ->toString();
     }
 
     protected function getStub(): string
@@ -74,7 +75,7 @@ class MakeApiRequest extends GeneratorCommand
     protected function getOptions(): array
     {
         return [
-            ['force', 'f', InputOption::VALUE_NONE, 'Create the class even if the console command already exists'],
+            ['force', 'f', InputOption::VALUE_NONE, 'Create the class even if it already exists'],
         ];
     }
 }

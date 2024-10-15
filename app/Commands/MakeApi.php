@@ -22,20 +22,24 @@ class MakeApi extends GeneratorCommand
 
     public function handle(): ?bool
     {
-        $this->directory = Str::of(parent::getNameInput())
-            ->lower()
-            ->whenEndsWith('api', function (Stringable $string) {
-                return $string->before('api');
-            })
-            ->title();
+        $this->directory = Str::of($this->getNameInput())
+            ->prepend('Api/')
+            ->chopEnd('Api')
+            ->toString();
 
         return parent::handle();
     }
 
     protected function getNameInput(): string
     {
-        return Str::of($this->directory)
-            ->append('Api');
+        return Str::of($this->argument('name'))
+            ->lower()
+            ->whenEndsWith('api', function (Stringable $string) {
+                return $string->before('api');
+            })
+            ->title()
+            ->append('Api')
+            ->toString();
     }
 
     protected function getDefaultNamespace($rootNamespace): string
@@ -83,7 +87,7 @@ class MakeApi extends GeneratorCommand
     protected function getOptions(): array
     {
         return [
-            ['force', 'f', InputOption::VALUE_NONE, 'Create the class even if the console command already exists'],
+            ['force', 'f', InputOption::VALUE_NONE, 'Create the class even if it already exists'],
         ];
     }
 }
