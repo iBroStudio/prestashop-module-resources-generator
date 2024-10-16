@@ -29,8 +29,8 @@ class DummyClass extends FrameworkBundleAdminController
             $this->flashErrors($errors);
         }
 
-        return $this->render('@Modules/{{ module_name }}/views/templates/admin/{{ view_filename }}.html.twig', [
-            '{{ form_name }}' => $form->createView()
+        return $this->render('@Modules/{{ module_name_path }}/views/templates/admin/{{ form_key }}.html.twig', [
+            '{{ form_key }}' => $form->createView()
         ]);
     }
 }

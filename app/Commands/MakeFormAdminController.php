@@ -78,12 +78,14 @@ class MakeFormAdminController extends GeneratorCommand
                 '{{ module_name }}',
                 '{{ module_controller_route }}',
                 '{{ form_name }}',
-                '{{ view_filename }}',
+                '{{ module_name_path }}',
+                '{{ form_key }}',
             ],
             [
-                $this->getModuleInfos('name'),
+                $this->getModuleLowerSnake(),
                 $this->form_name.'_route',
                 $this->form_name,
+                $this->getModuleInfos('name'),
                 Str::camel($this->form_name),
             ],
             $stub

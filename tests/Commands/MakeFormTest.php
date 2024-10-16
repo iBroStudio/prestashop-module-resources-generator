@@ -106,10 +106,10 @@ it('can generate form admin controller', function () {
         ->and(File::get($file))
         ->toContain('namespace PrestaShop\Module\ModuleTest\Controller;')
         ->toContain('class TestController extends FrameworkBundleAdminController')
-        ->toContain('prestashop.module.moduletest.form.test_form_data_handler')
+        ->toContain('prestashop.module.module_test.form.test_form_data_handler')
         ->toContain('$this->redirectToRoute(\'test_form_route\')')
         ->toContain('return $this->render(\'@Modules/moduletest/views/templates/admin/testForm.html.twig\'')
-        ->toContain('\'test_form\' => $form->createView()')
+        ->toContain('\'testForm\' => $form->createView()')
         ->and(
             $yaml->data()->get('module_test_test')
         )->toMatchArray([
