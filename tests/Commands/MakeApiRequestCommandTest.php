@@ -8,7 +8,7 @@ use Symfony\Component\Console\Command\Command;
 use function Pest\Laravel\artisan;
 
 it('can generate an api get request', function () {
-    $file = getcwd().'/src/Api/Test/Requests/GetTestRequest.php';
+    $file = getcwd().'/module-test/src/Api/Test/Requests/GetTestRequest.php';
     File::delete($file);
 
     artisan(MakeApiRequest::class, [
@@ -24,14 +24,14 @@ it('can generate an api get request', function () {
         ->and(
             file_get_contents($file)
         )
-        ->toContain('namespace PrestaShop\Module\ModuleName\Api\Test\Requests;')
+        ->toContain('namespace PrestaShop\Module\ModuleTest\Api\Test\Requests;')
         ->toContain('class GetTestRequest extends Request')
         ->toContain('protected Method $method = Method::GET;')
         ->toContain('return \'/--api_endpoint--\';');
 });
 
 it('can generate an api get request with arguments', function () {
-    $file = getcwd().'/src/Api/Test/Requests/GetTestRequest.php';
+    $file = getcwd().'/module-test/src/Api/Test/Requests/GetTestRequest.php';
     File::delete($file);
 
     artisan(MakeApiRequest::class, [
@@ -47,7 +47,7 @@ it('can generate an api get request with arguments', function () {
         ->and(
             file_get_contents($file)
         )
-        ->toContain('namespace PrestaShop\Module\ModuleName\Api\Test\Requests;')
+        ->toContain('namespace PrestaShop\Module\ModuleTest\Api\Test\Requests;')
         ->toContain('class GetTestRequest extends Request')
         ->toContain('protected Method $method = Method::GET;')
         ->toContain('public function __construct(protected readonly int $id) {');

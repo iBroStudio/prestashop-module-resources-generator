@@ -13,7 +13,7 @@ it('can load routes.yml', function () {
 });
 
 it('can register a route', function () {
-    File::delete(getcwd().'/src/config/routes.yml');
+    File::delete(getcwd().'/module-test/config/routes.yml');
     $yaml = app(YamlConfigContract::class)->get('routes');
 
     expect(

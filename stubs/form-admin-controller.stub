@@ -12,7 +12,7 @@ class DummyClass extends FrameworkBundleAdminController
 {
     public function index(Request $request): Response
     {
-        $formDataHandler = $this->get('prestashop.module.{{ module_directory }}.form.{{ form_name }}_data_handler');
+        $formDataHandler = $this->get('prestashop.module.{{ module_name }}.form.{{ form_name }}_data_handler');
 
         $form = $formDataHandler->getForm();
         $form->handleRequest($request);
@@ -29,7 +29,7 @@ class DummyClass extends FrameworkBundleAdminController
             $this->flashErrors($errors);
         }
 
-        return $this->render('@Modules/{{ module_directory }}/views/templates/admin/form.html.twig', [
+        return $this->render('@Modules/{{ module_name }}/views/templates/admin/{{ view_filename }}.html.twig', [
             '{{ form_name }}' => $form->createView()
         ]);
     }

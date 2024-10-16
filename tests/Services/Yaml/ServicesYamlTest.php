@@ -13,7 +13,7 @@ it('can load services.yml', function () {
 });
 
 it('can register a service', function () {
-    File::delete(getcwd().'/src/config/services.yml');
+    File::delete(getcwd().'/module-test/config/services.yml');
     $yaml = app(YamlConfigContract::class)->get('services');
 
     expect(

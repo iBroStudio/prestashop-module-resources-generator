@@ -1,4 +1,0 @@
-services:
-    _defaults: { public: true }
-    prestashop.module.ibrostudio.form.configuration_form_data_handler: { class: PrestaShop\PrestaShop\Core\Form\Handler, arguments: ['@form.factory', '@prestashop.core.hook.dispatcher'], public: true, tags: [{ name: form.type }] }
-    prestashop.module.ibrostudio.form.configuration_form_data_handler2: { class: PrestaShop\PrestaShop\Core\Form\Handler }

@@ -74,11 +74,17 @@ class MakeFormAdminController extends GeneratorCommand
         $stub = parent::replaceClass($stub, $name);
 
         return str_replace(
-            ['{{ module_directory }}', '{{ module_controller_route }}', '{{ form_name }}'],
             [
-                $this->getModuleDirectory(),
+                '{{ module_name }}',
+                '{{ module_controller_route }}',
+                '{{ form_name }}',
+                '{{ view_filename }}',
+            ],
+            [
+                $this->getModuleInfos('name'),
                 $this->form_name.'_route',
                 $this->form_name,
+                Str::camel($this->form_name),
             ],
             $stub
         );

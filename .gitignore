@@ -11,6 +11,6 @@ node_modules
 phpunit.xml
 phpstan.neon
 presta-generator.phar
-src
+module-test
 testbench.yaml
 vendor

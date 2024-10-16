@@ -15,9 +15,9 @@ use Symfony\Component\Console\Command\Command;
 use function Pest\Laravel\artisan;
 
 it('can generate form type', function () {
-    $file = getcwd().'/src/Form/TestFormType.php';
+    $file = getcwd().'/module-test/src/Form/TestFormType.php';
     File::delete($file);
-    File::delete(getcwd().'/src/config/services.yml');
+    File::delete(getcwd().'/module-test/config/services.yml');
 
     artisan(MakeFormType::class, ['name' => 'test', '--force' => true])
         ->assertExitCode(Command::SUCCESS);
@@ -26,12 +26,13 @@ it('can generate form type', function () {
 
     expect($file)->toBeFile()
         ->and(File::get($file))
+        ->toContain('namespace PrestaShop\Module\ModuleTest\Form;')
         ->toContain('class TestFormType extends TranslatorAwareType')
-        ->toContain("'Field label', 'Modules.ModuleName.Admin'")
+        ->toContain("'Field label', 'Modules.ModuleTest.Admin'")
         ->and(
-            $yaml->data()->get('services')['prestashop.module.module_name.form.type.test_form_type']
+            $yaml->data()->get('services')['prestashop.module.module_test.form.type.test_form_type']
         )->toMatchArray([
-            'class' => 'PrestaShop\Module\ModuleName\Form\TestFormType',
+            'class' => 'PrestaShop\Module\ModuleTest\Form\TestFormType',
             'parent' => 'form.type.translatable.aware',
             'public' => true,
             'tags' => [
@@ -43,9 +44,9 @@ it('can generate form type', function () {
 });
 
 it('can generate form data configuration', function () {
-    $file = getcwd().'/src/Form/TestFormDataConfiguration.php';
+    $file = getcwd().'/module-test/src/Form/TestFormDataConfiguration.php';
     File::delete($file);
-    File::delete(getcwd().'/src/config/services.yml');
+    File::delete(getcwd().'/module-test/config/services.yml');
 
     artisan(MakeFormDataConfiguration::class, ['name' => 'test', '--force' => true])
         ->assertExitCode(Command::SUCCESS);
@@ -54,12 +55,13 @@ it('can generate form data configuration', function () {
 
     expect($file)->toBeFile()
         ->and(File::get($file))
+        ->toContain('namespace PrestaShop\Module\ModuleTest\Form;')
         ->toContain('final class TestFormDataConfiguration implements DataConfigurationInterface')
-        ->toContain('MODULE_NAME_KEY1')
+        ->toContain('MODULE_TEST_KEY1')
         ->and(
-            $yaml->data()->get('services')['prestashop.module.module_name.form.test_form_data_configuration']
+            $yaml->data()->get('services')['prestashop.module.module_test.form.test_form_data_configuration']
         )->toMatchArray([
-            'class' => 'PrestaShop\Module\ModuleName\Form\TestFormDataConfiguration',
+            'class' => 'PrestaShop\Module\ModuleTest\Form\TestFormDataConfiguration',
             'arguments' => [
                 '@prestashop.adapter.legacy.configuration',
             ],
@@ -67,9 +69,9 @@ it('can generate form data configuration', function () {
 });
 
 it('can generate form data provider', function () {
-    $file = getcwd().'/src/Form/TestFormDataProvider.php';
+    $file = getcwd().'/module-test/src/Form/TestFormDataProvider.php';
     File::delete($file);
-    File::delete(getcwd().'/src/config/services.yml');
+    File::delete(getcwd().'/module-test/config/services.yml');
 
     artisan(MakeFormDataProvider::class, ['name' => 'test', '--force' => true])
         ->assertExitCode(Command::SUCCESS);
@@ -78,21 +80,22 @@ it('can generate form data provider', function () {
 
     expect($file)->toBeFile()
         ->and(File::get($file))
+        ->toContain('namespace PrestaShop\Module\ModuleTest\Form;')
         ->toContain('final class TestFormDataProvider implements FormDataProviderInterface')
         ->and(
-            $yaml->data()->get('services')['prestashop.module.module_name.form.test_form_data_provider']
+            $yaml->data()->get('services')['prestashop.module.module_test.form.test_form_data_provider']
         )->toMatchArray([
-            'class' => 'PrestaShop\Module\ModuleName\Form\TestFormDataProvider',
+            'class' => 'PrestaShop\Module\ModuleTest\Form\TestFormDataProvider',
             'arguments' => [
-                '@prestashop.module.module_name.form.test_form_data_configuration',
+                '@prestashop.module.module_test.form.test_form_data_configuration',
             ],
         ]);
 });
 
 it('can generate form admin controller', function () {
-    $file = getcwd().'/src/Controller/TestController.php';
+    $file = getcwd().'/module-test/src/Controller/TestController.php';
     File::delete($file);
-    File::delete(getcwd().'/src/config/routes.yml');
+    File::delete(getcwd().'/module-test/config/routes.yml');
 
     artisan(MakeFormAdminController::class, ['name' => 'test', '--force' => true])
         ->assertExitCode(Command::SUCCESS);
@@ -101,26 +104,27 @@ it('can generate form admin controller', function () {
 
     expect($file)->toBeFile()
         ->and(File::get($file))
+        ->toContain('namespace PrestaShop\Module\ModuleTest\Controller;')
         ->toContain('class TestController extends FrameworkBundleAdminController')
-        ->toContain('prestashop.module.prestashop-module-resources-generator.form.test_form_data_handler')
+        ->toContain('prestashop.module.moduletest.form.test_form_data_handler')
         ->toContain('$this->redirectToRoute(\'test_form_route\')')
-        ->toContain('return $this->render(\'@Modules/prestashop-module-resources-generator/views/templates/admin/form.html.twig\'')
+        ->toContain('return $this->render(\'@Modules/moduletest/views/templates/admin/testForm.html.twig\'')
         ->toContain('\'test_form\' => $form->createView()')
         ->and(
-            $yaml->data()->get('module_name_test')
+            $yaml->data()->get('module_test_test')
         )->toMatchArray([
-            'path' => '/module_name/test',
+            'path' => '/module_test/test',
             'methods' => ['GET', 'POST'],
             'defaults' => [
-                '_controller' => 'PrestaShop\Module\ModuleName\Controller\TestController::index',
-                '_legacy_controller' => 'AdminModuleNameTestController',
-                '_legacy_link' => 'AdminModuleNameTestController',
+                '_controller' => 'PrestaShop\Module\ModuleTest\Controller\TestController::index',
+                '_legacy_controller' => 'AdminModuleTestTestController',
+                '_legacy_link' => 'AdminModuleTestTestController',
             ],
         ]);
 });
 
 it('can generate form admin view', function () {
-    $file = getcwd().'/src/views/templates/admin/testForm.html.twig';
+    $file = getcwd().'/module-test/views/templates/admin/testForm.html.twig';
     File::delete($file);
 
     artisan(MakeFormAdminView::class, ['name' => 'test', '--force' => true])
@@ -130,19 +134,19 @@ it('can generate form admin view', function () {
         ->and(
             File::get($file)
         )->toContain('{{ form_start(testForm) }}')
-        ->toContain('Modules.ModuleName.Admin')
+        ->toContain('Modules.ModuleTest.Admin')
         ->toContain('{{ form_widget(testForm) }}')
         ->toContain('{{ form_end(testForm) }}');
 });
 
 it('can generate a config form ', function () {
-    $formType = getcwd().'/src/Form/TestFormType.php';
-    $formDataConfiguration = getcwd().'/src/Form/TestFormDataConfiguration.php';
-    $formDataProvider = getcwd().'/src/Form/TestFormDataProvider.php';
-    $formController = getcwd().'/src/Controller/TestController.php';
-    $formView = getcwd().'/src/views/templates/admin/testForm.html.twig';
-    $serviceYaml = getcwd().'/src/config/services.yml';
-    $routeYaml = getcwd().'/src/config/routes.yml';
+    $formType = getcwd().'/module-test/src/Form/TestFormType.php';
+    $formDataConfiguration = getcwd().'/module-test/src/Form/TestFormDataConfiguration.php';
+    $formDataProvider = getcwd().'/module-test/src/Form/TestFormDataProvider.php';
+    $formController = getcwd().'/module-test/src/Controller/TestController.php';
+    $formView = getcwd().'/module-test/views/templates/admin/testForm.html.twig';
+    $serviceYaml = getcwd().'/module-test/config/services.yml';
+    $routeYaml = getcwd().'/module-test/config/routes.yml';
 
     File::delete($formType);
     File::delete($formDataConfiguration);
@@ -173,14 +177,14 @@ it('can generate a config form ', function () {
         ->and($serviceYaml)->toBeFile()
         ->and($routeYaml)->toBeFile()
         ->and(
-            $yaml->data()->get('services')['prestashop.module.module_name.form.test_form_data_handler']
+            $yaml->data()->get('services')['prestashop.module.module_test.form.test_form_data_handler']
         )->toMatchArray([
             'class' => 'PrestaShop\PrestaShop\Core\Form\Handler',
             'arguments' => [
                 '@form.factory',
                 '@prestashop.core.hook.dispatcher',
-                '@prestashop.module.module_name.form.test_form_data_provider',
-                'PrestaShop\Module\DemoSymfonyFormSimple\Form\DemoConfigurationFormType',
+                '@prestashop.module.module_test.form.test_form_data_provider',
+                'PrestaShop\Module\ModuleTest\Form\TestFormType',
                 'TestConfiguration',
             ],
         ]);

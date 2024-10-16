@@ -133,6 +133,12 @@ class MakeConfigForm extends Command
             ->lower()
             ->toString();
 
+        $form_type = Str::of($this->rootNamespace())
+            ->append('Form\\')
+            ->append(Str::ucfirst($this->form))
+            ->append('FormType')
+            ->toString();
+
         return app(YamlConfigContract::class)
             ->get('services')
             ->register([
@@ -142,7 +148,7 @@ class MakeConfigForm extends Command
                         '@form.factory',
                         '@prestashop.core.hook.dispatcher',
                         "@prestashop.module.{$this->getModuleLowerSnake()}.form.{$form_data_provider}",
-                        'PrestaShop\Module\DemoSymfonyFormSimple\Form\DemoConfigurationFormType',
+                        $form_type,
                         $name,
                     ],
                 ],

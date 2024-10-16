@@ -15,7 +15,7 @@ class YamlConfigService
     ) {
         if ($this->file) {
             if (config('app.env') === 'testing') {
-                $this->file = getcwd().'/src/config/'.$this->file;
+                $this->file = getcwd().'/module-test/config/'.$this->file;
             } else {
                 $this->file = getcwd().'/config/'.$this->file;
             }

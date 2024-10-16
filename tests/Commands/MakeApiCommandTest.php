@@ -8,7 +8,7 @@ use Symfony\Component\Console\Command\Command;
 use function Pest\Laravel\artisan;
 
 it('can generate api with auth', function () {
-    $file = getcwd().'/src/Api/Test/TestApi.php';
+    $file = getcwd().'/module-test/src/Api/Test/TestApi.php';
     File::delete($file);
 
     artisan(MakeApi::class, ['name' => 'test', '--force' => true])
@@ -19,13 +19,13 @@ it('can generate api with auth', function () {
         ->and(
             File::get($file)
         )
-        ->toContain('namespace PrestaShop\Module\ModuleName\Api\Test;')
+        ->toContain('namespace PrestaShop\Module\ModuleTest\Api\Test;')
         ->toContain('final class TestApi extends ApiClient')
         ->toContain('const AUTH = '.ApiAuthManagers::BEARER->value.'::class;');
 });
 
 it('can generate api without auth', function () {
-    $file = getcwd().'/src/Api/Test/TestApi.php';
+    $file = getcwd().'/module-test/src/Api/Test/TestApi.php';
     File::delete($file);
 
     artisan(MakeApi::class, ['name' => 'test', '--force' => true])
@@ -36,7 +36,7 @@ it('can generate api without auth', function () {
         ->and(
             File::get($file)
         )
-        ->toContain('namespace PrestaShop\Module\ModuleName\Api\Test;')
+        ->toContain('namespace PrestaShop\Module\ModuleTest\Api\Test;')
         ->toContain('final class TestApi extends ApiClient')
         ->toContain('const AUTH = '.ApiAuthManagers::NONE->value.';');
 });

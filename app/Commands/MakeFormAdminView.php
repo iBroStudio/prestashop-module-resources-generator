@@ -66,7 +66,7 @@ class MakeFormAdminView extends GeneratorCommand
     {
         return Str::of(getcwd())
             ->when(config('app.env') === 'testing', function (Stringable $string) {
-                return $string->append('/src');
+                return $string->append('/module-test');
             })
             ->append(
                 '/views/templates/'.$this->directory.'/'.$this->getNameInput().'.html.twig'

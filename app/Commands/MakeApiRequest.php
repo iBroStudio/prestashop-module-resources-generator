@@ -29,6 +29,19 @@ class MakeApiRequest extends GeneratorCommand
             choices: ApiRequestMethods::getSelector()
         );
 
+        $this->directory = Str::of(
+            Str::replaceFirst(
+                $this->rootNamespace(),
+                '',
+                $this->getDefaultNamespace(
+                    $this->rootNamespace()
+                )
+            )
+        )
+            ->chopStart('\\')
+            ->replace('\\', '/')
+            ->toString();
+
         return parent::handle();
     }
 
