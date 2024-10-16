@@ -18,7 +18,9 @@ it('can generate api with auth', function () {
     expect($file)->toBeFile()
         ->and(
             File::get($file)
-        )->toContain('final class TestApi extends ApiClient')
+        )
+        ->toContain('namespace PrestaShop\Module\ModuleName\Api\Test;')
+        ->toContain('final class TestApi extends ApiClient')
         ->toContain('const AUTH = '.ApiAuthManagers::BEARER->value.'::class;');
 });
 
@@ -33,6 +35,8 @@ it('can generate api without auth', function () {
     expect($file)->toBeFile()
         ->and(
             File::get($file)
-        )->toContain('final class TestApi extends ApiClient')
+        )
+        ->toContain('namespace PrestaShop\Module\ModuleName\Api\Test;')
+        ->toContain('final class TestApi extends ApiClient')
         ->toContain('const AUTH = '.ApiAuthManagers::NONE->value.';');
 });
