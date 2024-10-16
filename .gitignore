@@ -3,12 +3,14 @@
 .phpunit.cache
 .phpunit.result.cache
 .vscode
+builds/presta-generator-old.phar
 composer.lock
 coverage
 docs
 node_modules
 phpunit.xml
 phpstan.neon
+presta-generator.phar
 src
 testbench.yaml
 vendor
