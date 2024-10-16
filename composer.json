@@ -12,15 +12,16 @@
             "role": "Developer"
         }
     ],
-    "version": "0.2.2",
+    "version": "0.2.3",
     "require": {
         "php": "^8.2.0"
     },
     "require-dev": {
-        "laravel/pint": "^1.15.2",
+        "larastan/larastan": "^2.0.1",
         "laravel-zero/framework": "^11.0.0",
         "laravel-zero/phar-updater": "^1.4",
-        "larastan/larastan": "^2.0.1",
+        "laravel/pint": "^1.15.2",
+        "laravel/prompts": "^0.3.1",
         "mockery/mockery": "^1.6.11",
         "pestphp/pest": "^3.0",
         "pestphp/pest-plugin-laravel": "^3.0",

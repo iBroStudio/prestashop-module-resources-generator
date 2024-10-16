@@ -8,6 +8,8 @@ use App\Commands\MakeFormDataProvider;
 use App\Commands\MakeFormType;
 use App\Services\Yaml\YamlConfigContract;
 use Illuminate\Support\Facades\File;
+use Laravel\Prompts\Key;
+use Laravel\Prompts\Prompt;
 use Symfony\Component\Console\Command\Command;
 
 use function Pest\Laravel\artisan;
@@ -150,7 +152,15 @@ it('can generate a config form ', function () {
     File::delete($serviceYaml);
     File::delete($routeYaml);
 
-    artisan(MakeConfigForm::class, ['name' => 'test', '--force' => true])
+    Prompt::fake([
+        Key::BACKSPACE, Key::BACKSPACE, Key::BACKSPACE, Key::BACKSPACE, Key::BACKSPACE, Key::BACKSPACE,
+        Key::BACKSPACE, Key::BACKSPACE, Key::BACKSPACE, Key::BACKSPACE, Key::BACKSPACE, Key::BACKSPACE,
+        Key::BACKSPACE, //remove default value (Configuration)
+        't', 'e', 's', 't', Key::ENTER, //form name
+    ]);
+
+    artisan(MakeConfigForm::class)
+        ->expectsOutputToContain('What should the config form be named?')
         ->assertExitCode(Command::SUCCESS);
 
     $yaml = app(YamlConfigContract::class)->get('services');
@@ -174,4 +184,18 @@ it('can generate a config form ', function () {
                 'TestConfiguration',
             ],
         ]);
+
+    Prompt::fake([
+        Key::BACKSPACE, Key::BACKSPACE, Key::BACKSPACE, Key::BACKSPACE, Key::BACKSPACE, Key::BACKSPACE,
+        Key::BACKSPACE, Key::BACKSPACE, Key::BACKSPACE, Key::BACKSPACE, Key::BACKSPACE, Key::BACKSPACE,
+        Key::BACKSPACE, //remove default value (Configuration)
+        't', 'e', 's', 't', Key::ENTER, //form name
+        Key::ENTER, //force creation: false
+    ]);
+
+    artisan(MakeConfigForm::class)
+        ->expectsOutputToContain('What should the config form be named?')
+        ->expectsOutputToContain('This form already exists. Force creation?')
+        ->expectsOutputToContain('Aborted.')
+        ->assertExitCode(Command::SUCCESS);
 });
