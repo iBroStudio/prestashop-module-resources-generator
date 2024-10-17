@@ -1,6 +1,7 @@
 <?php
 
 use App\Commands\MakeConfigForm;
+use App\Commands\MakeFormAdminAbstractController;
 use App\Commands\MakeFormAdminController;
 use App\Commands\MakeFormAdminView;
 use App\Commands\MakeFormDataConfiguration;
@@ -93,7 +94,7 @@ it('can generate form data provider', function () {
 });
 
 it('can generate form admin controller', function () {
-    $file = getcwd().'/module-test/src/Controller/TestController.php';
+    $file = getcwd().'/module-test/src/Controller/Admin/TestController.php';
     File::delete($file);
     File::delete(getcwd().'/module-test/config/routes.yml');
 
@@ -104,11 +105,12 @@ it('can generate form admin controller', function () {
 
     expect($file)->toBeFile()
         ->and(File::get($file))
-        ->toContain('namespace PrestaShop\Module\ModuleTest\Controller;')
-        ->toContain('class TestController extends FrameworkBundleAdminController')
+        ->toContain('namespace PrestaShop\Module\ModuleTest\Controller\Admin;')
+        ->toContain('class TestController extends TestAbstractController')
         ->toContain('prestashop.module.module_test.form.test_form_data_handler')
         ->toContain('$this->redirectToRoute(\'test_form_route\')')
         ->toContain('return $this->render(\'@Modules/moduletest/views/templates/admin/testForm.html.twig\'')
+        ->toContain('Modules.ModuleTest.Admin')
         ->toContain('\'testForm\' => $form->createView()')
         ->and(
             $yaml->data()->get('module_test_test')
@@ -116,11 +118,26 @@ it('can generate form admin controller', function () {
             'path' => '/module_test/test',
             'methods' => ['GET', 'POST'],
             'defaults' => [
-                '_controller' => 'PrestaShop\Module\ModuleTest\Controller\TestController::index',
+                '_controller' => 'PrestaShop\Module\ModuleTest\Controller\Admin\TestController::index',
                 '_legacy_controller' => 'AdminModuleTestTestController',
                 '_legacy_link' => 'AdminModuleTestTestController',
             ],
         ]);
+});
+
+it('can generate form admin abstract controller', function () {
+    $file = getcwd().'/module-test/src/Controller/Admin/TestAbstractController.php';
+    File::delete($file);
+
+    artisan(MakeFormAdminAbstractController::class, ['name' => 'test', '--force' => true])
+        ->assertExitCode(Command::SUCCESS);
+
+    expect($file)->toBeFile()
+        ->and(File::get($file))
+        ->toContain('namespace PrestaShop\Module\ModuleTest\Controller\Admin;')
+        ->toContain('abstract class TestAbstractController extends FrameworkBundleAdminController')
+        ->toContain('\'route\' => \'test_form_route\'')
+        ->toContain('Modules.ModuleTest.Admin');
 });
 
 it('can generate form admin view', function () {
@@ -143,7 +160,8 @@ it('can generate a config form ', function () {
     $formType = getcwd().'/module-test/src/Form/TestFormType.php';
     $formDataConfiguration = getcwd().'/module-test/src/Form/TestFormDataConfiguration.php';
     $formDataProvider = getcwd().'/module-test/src/Form/TestFormDataProvider.php';
-    $formController = getcwd().'/module-test/src/Controller/TestController.php';
+    $formAbstractController = getcwd().'/module-test/src/Controller/Admin/TestAbstractController.php';
+    $formController = getcwd().'/module-test/src/Controller/Admin/TestController.php';
     $formView = getcwd().'/module-test/views/templates/admin/testForm.html.twig';
     $serviceYaml = getcwd().'/module-test/config/services.yml';
     $routeYaml = getcwd().'/module-test/config/routes.yml';
@@ -151,6 +169,7 @@ it('can generate a config form ', function () {
     File::delete($formType);
     File::delete($formDataConfiguration);
     File::delete($formDataProvider);
+    File::delete($formAbstractController);
     File::delete($formController);
     File::delete($formView);
     File::delete($serviceYaml);
@@ -172,6 +191,7 @@ it('can generate a config form ', function () {
     expect($formType)->toBeFile()
         ->and($formDataConfiguration)->toBeFile()
         ->and($formDataProvider)->toBeFile()
+        ->and($formAbstractController)->toBeFile()
         ->and($formController)->toBeFile()
         ->and($formView)->toBeFile()
         ->and($serviceYaml)->toBeFile()

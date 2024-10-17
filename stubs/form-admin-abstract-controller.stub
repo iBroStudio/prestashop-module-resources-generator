@@ -1,0 +1,45 @@
+<?php
+
+declare(strict_types=1);
+
+namespace {{ namespace }};
+
+use PrestaShopBundle\Controller\Admin\FrameworkBundleAdminController;
+
+abstract class DummyClass extends FrameworkBundleAdminController
+{
+    protected function getHeaderTabs(): string
+    {
+        $currentRoute = $this->get('request_stack')->getCurrentRequest()->get('_route');
+
+        $tabs = [
+            [
+                'route' => '{{ module_controller_route }}',
+                'label' => $this->trans('Tab label', 'Modules.{{ translation_domain }}.Admin'),
+            ],
+        ];
+
+        return '<ul class="nav nav-pills">'.
+            implode('', array_map(function ($tab) use ($currentRoute) {
+                    return '
+                    <li class="nav-item">
+                        <a href="' . $this->generateUrl($tab['route']) .'" class="nav-link tab ' . ($currentRoute === $tab['route'] ? 'active current' : '') . '">
+                            '.$tab['label'].'
+                        </a>
+                    </li>';
+                }, $tabs)
+            ).
+        '</ul>';
+    }
+
+    protected function getToolbarButtons(): array
+    {
+        return [
+            'add' => [
+                'desc' => $this->trans('Button label', 'Modules.{{ translation_domain }}.Admin'),
+                'icon' => 'add_circle_outline',
+                'href' => $this->generateUrl('route_name'),
+            ],
+        ];
+    }
+}

@@ -4,11 +4,10 @@ declare(strict_types=1);
 
 namespace {{ namespace }};
 
-use PrestaShopBundle\Controller\Admin\FrameworkBundleAdminController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class DummyClass extends FrameworkBundleAdminController
+class DummyClass extends {{ abstract_class }}
 {
     public function index(Request $request): Response
     {
@@ -30,6 +29,9 @@ class DummyClass extends FrameworkBundleAdminController
         }
 
         return $this->render('@Modules/{{ module_name_path }}/views/templates/admin/{{ form_key }}.html.twig', [
+            'layoutTitle' => $this->trans('Page title', 'Modules.{{ translation_domain }}.Admin'),
+            //'layoutHeaderToolbarBtn' => $this->getToolbarButtons(),
+            //'headerTabContent' => $this->getHeaderTabs(),
             '{{ form_key }}' => $form->createView()
         ]);
     }

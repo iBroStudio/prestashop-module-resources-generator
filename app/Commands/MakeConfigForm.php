@@ -108,6 +108,15 @@ class MakeConfigForm extends Command
         }
 
         if (
+            $this->call(MakeFormAdminAbstractController::class, [
+                'name' => $this->form,
+                '--force' => $responses['force'],
+            ]) === Command::FAILURE
+        ) {
+            return Command::FAILURE;
+        }
+
+        if (
             $this->call(MakeFormAdminController::class, [
                 'name' => $this->form,
                 '--force' => $responses['force'],

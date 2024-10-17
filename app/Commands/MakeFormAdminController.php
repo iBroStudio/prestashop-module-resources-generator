@@ -23,7 +23,7 @@ class MakeFormAdminController extends GeneratorCommand
 
     public function handle(): ?bool
     {
-        $this->directory = 'Controller';
+        $this->directory = 'Controller/Admin';
 
         $this->form_name = Str::of($this->argument('name'))
             ->snake()
@@ -66,27 +66,35 @@ class MakeFormAdminController extends GeneratorCommand
 
     protected function getDefaultNamespace($rootNamespace): string
     {
-        return $rootNamespace.'\\Controller';
+        return $rootNamespace.'\\Controller\\Admin';
     }
 
     protected function replaceClass($stub, $name): array|string
     {
         $stub = parent::replaceClass($stub, $name);
+        $abstract_class = Str::of($this->getNameInput())
+            ->chopEnd('Controller')
+            ->append('AbstractController')
+            ->toString();
 
         return str_replace(
             [
+                '{{ abstract_class }}',
                 '{{ module_name }}',
                 '{{ module_controller_route }}',
                 '{{ form_name }}',
                 '{{ module_name_path }}',
                 '{{ form_key }}',
+                '{{ translation_domain }}',
             ],
             [
+                $abstract_class,
                 $this->getModuleLowerSnake(),
                 $this->form_name.'_route',
                 $this->form_name,
                 $this->getModuleInfos('name'),
                 Str::camel($this->form_name),
+                $this->getModuleTranslationDomain(),
             ],
             $stub
         );
