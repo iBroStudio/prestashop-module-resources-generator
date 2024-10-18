@@ -52,7 +52,7 @@ class MakeFormDataProvider extends GeneratorCommand
     protected function getNameInput(): string
     {
         return Str::of(parent::getNameInput())
-            ->ucfirst()
+            ->studly()
             ->append('FormDataProvider')
             ->toString();
     }

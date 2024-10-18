@@ -28,7 +28,7 @@ class MakeFormAdminAbstractController extends GeneratorCommand
     protected function getNameInput(): string
     {
         return Str::of(parent::getNameInput())
-            ->ucfirst()
+            ->studly()
             ->append('AbstractController')
             ->toString();
     }
@@ -44,8 +44,7 @@ class MakeFormAdminAbstractController extends GeneratorCommand
 
         $route = Str::of($this->argument('name'))
             ->snake()
-            ->lower()
-            ->append('_form');
+            ->lower();
 
         return str_replace(
             [
@@ -53,7 +52,7 @@ class MakeFormAdminAbstractController extends GeneratorCommand
                 '{{ translation_domain }}',
             ],
             [
-                $route.'_route',
+                $this->getModuleLowerSnake().'_'.$route,
                 $this->getModuleTranslationDomain(),
             ],
             $stub

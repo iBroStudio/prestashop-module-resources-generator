@@ -29,7 +29,7 @@ class MakeFormAdminView extends GeneratorCommand
     protected function getNameInput(): string
     {
         return Str::of(parent::getNameInput())
-            ->lower()
+            ->camel()
             ->append('Form')
             ->toString();
     }

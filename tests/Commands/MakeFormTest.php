@@ -16,11 +16,11 @@ use Symfony\Component\Console\Command\Command;
 use function Pest\Laravel\artisan;
 
 it('can generate form type', function () {
-    $file = getcwd().'/module-test/src/Form/TestFormType.php';
+    $file = getcwd().'/module-test/src/Form/TestConfigFormType.php';
     File::delete($file);
     File::delete(getcwd().'/module-test/config/services.yml');
 
-    artisan(MakeFormType::class, ['name' => 'test', '--force' => true])
+    artisan(MakeFormType::class, ['name' => 'test config', '--force' => true])
         ->assertExitCode(Command::SUCCESS);
 
     $yaml = app(YamlConfigContract::class)->get('services');
@@ -28,12 +28,12 @@ it('can generate form type', function () {
     expect($file)->toBeFile()
         ->and(File::get($file))
         ->toContain('namespace PrestaShop\Module\ModuleTest\Form;')
-        ->toContain('class TestFormType extends TranslatorAwareType')
+        ->toContain('class TestConfigFormType extends TranslatorAwareType')
         ->toContain("'Field label', 'Modules.ModuleTest.Admin'")
         ->and(
-            $yaml->data()->get('services')['prestashop.module.module_test.form.type.test_form_type']
+            $yaml->data()->get('services')['prestashop.module.module_test.form.type.test_config_form_type']
         )->toMatchArray([
-            'class' => 'PrestaShop\Module\ModuleTest\Form\TestFormType',
+            'class' => 'PrestaShop\Module\ModuleTest\Form\TestConfigFormType',
             'parent' => 'form.type.translatable.aware',
             'public' => true,
             'tags' => [
@@ -45,11 +45,11 @@ it('can generate form type', function () {
 });
 
 it('can generate form data configuration', function () {
-    $file = getcwd().'/module-test/src/Form/TestFormDataConfiguration.php';
+    $file = getcwd().'/module-test/src/Form/TestConfigFormDataConfiguration.php';
     File::delete($file);
     File::delete(getcwd().'/module-test/config/services.yml');
 
-    artisan(MakeFormDataConfiguration::class, ['name' => 'test', '--force' => true])
+    artisan(MakeFormDataConfiguration::class, ['name' => 'test config', '--force' => true])
         ->assertExitCode(Command::SUCCESS);
 
     $yaml = app(YamlConfigContract::class)->get('services');
@@ -57,12 +57,12 @@ it('can generate form data configuration', function () {
     expect($file)->toBeFile()
         ->and(File::get($file))
         ->toContain('namespace PrestaShop\Module\ModuleTest\Form;')
-        ->toContain('final class TestFormDataConfiguration implements DataConfigurationInterface')
+        ->toContain('final class TestConfigFormDataConfiguration implements DataConfigurationInterface')
         ->toContain('MODULE_TEST_KEY1')
         ->and(
-            $yaml->data()->get('services')['prestashop.module.module_test.form.test_form_data_configuration']
+            $yaml->data()->get('services')['prestashop.module.module_test.form.test_config_form_data_configuration']
         )->toMatchArray([
-            'class' => 'PrestaShop\Module\ModuleTest\Form\TestFormDataConfiguration',
+            'class' => 'PrestaShop\Module\ModuleTest\Form\TestConfigFormDataConfiguration',
             'arguments' => [
                 '@prestashop.adapter.legacy.configuration',
             ],
@@ -70,11 +70,11 @@ it('can generate form data configuration', function () {
 });
 
 it('can generate form data provider', function () {
-    $file = getcwd().'/module-test/src/Form/TestFormDataProvider.php';
+    $file = getcwd().'/module-test/src/Form/TestConfigFormDataProvider.php';
     File::delete($file);
     File::delete(getcwd().'/module-test/config/services.yml');
 
-    artisan(MakeFormDataProvider::class, ['name' => 'test', '--force' => true])
+    artisan(MakeFormDataProvider::class, ['name' => 'test config', '--force' => true])
         ->assertExitCode(Command::SUCCESS);
 
     $yaml = app(YamlConfigContract::class)->get('services');
@@ -82,23 +82,23 @@ it('can generate form data provider', function () {
     expect($file)->toBeFile()
         ->and(File::get($file))
         ->toContain('namespace PrestaShop\Module\ModuleTest\Form;')
-        ->toContain('final class TestFormDataProvider implements FormDataProviderInterface')
+        ->toContain('final class TestConfigFormDataProvider implements FormDataProviderInterface')
         ->and(
-            $yaml->data()->get('services')['prestashop.module.module_test.form.test_form_data_provider']
+            $yaml->data()->get('services')['prestashop.module.module_test.form.test_config_form_data_provider']
         )->toMatchArray([
-            'class' => 'PrestaShop\Module\ModuleTest\Form\TestFormDataProvider',
+            'class' => 'PrestaShop\Module\ModuleTest\Form\TestConfigFormDataProvider',
             'arguments' => [
-                '@prestashop.module.module_test.form.test_form_data_configuration',
+                '@prestashop.module.module_test.form.test_config_form_data_configuration',
             ],
         ]);
 });
 
 it('can generate form admin controller', function () {
-    $file = getcwd().'/module-test/src/Controller/Admin/TestController.php';
+    $file = getcwd().'/module-test/src/Controller/Admin/TestConfigController.php';
     File::delete($file);
     File::delete(getcwd().'/module-test/config/routes.yml');
 
-    artisan(MakeFormAdminController::class, ['name' => 'test', '--force' => true])
+    artisan(MakeFormAdminController::class, ['name' => 'test config', '--force' => true])
         ->assertExitCode(Command::SUCCESS);
 
     $yaml = app(YamlConfigContract::class)->get('routes');
@@ -106,54 +106,54 @@ it('can generate form admin controller', function () {
     expect($file)->toBeFile()
         ->and(File::get($file))
         ->toContain('namespace PrestaShop\Module\ModuleTest\Controller\Admin;')
-        ->toContain('class TestController extends TestAbstractController')
-        ->toContain('prestashop.module.module_test.form.test_form_data_handler')
-        ->toContain('$this->redirectToRoute(\'test_form_route\')')
-        ->toContain('return $this->render(\'@Modules/moduletest/views/templates/admin/testForm.html.twig\'')
+        ->toContain('class TestConfigController extends TestConfigAbstractController')
+        ->toContain('prestashop.module.module_test.form.test_config_form_data_handler')
+        ->toContain('$this->redirectToRoute(\'module_test_test_config\')')
+        ->toContain('return $this->render(\'@Modules/moduletest/views/templates/admin/testConfigForm.html.twig\'')
         ->toContain('Modules.ModuleTest.Admin')
-        ->toContain('\'testForm\' => $form->createView()')
+        ->toContain('\'testConfigForm\' => $form->createView()')
         ->and(
-            $yaml->data()->get('module_test_test')
+            $yaml->data()->get('module_test_test_config')
         )->toMatchArray([
-            'path' => '/module_test/test',
+            'path' => '/module_test/test_config',
             'methods' => ['GET', 'POST'],
             'defaults' => [
-                '_controller' => 'PrestaShop\Module\ModuleTest\Controller\Admin\TestController::index',
-                '_legacy_controller' => 'AdminModuleTestTestController',
-                '_legacy_link' => 'AdminModuleTestTestController',
+                '_controller' => 'PrestaShop\Module\ModuleTest\Controller\Admin\TestConfigController::index',
+                '_legacy_controller' => 'AdminModuleTestTestConfigController',
+                '_legacy_link' => 'AdminModuleTestTestConfigController',
             ],
         ]);
 });
 
 it('can generate form admin abstract controller', function () {
-    $file = getcwd().'/module-test/src/Controller/Admin/TestAbstractController.php';
+    $file = getcwd().'/module-test/src/Controller/Admin/TestConfigAbstractController.php';
     File::delete($file);
 
-    artisan(MakeFormAdminAbstractController::class, ['name' => 'test', '--force' => true])
+    artisan(MakeFormAdminAbstractController::class, ['name' => 'test config', '--force' => true])
         ->assertExitCode(Command::SUCCESS);
 
     expect($file)->toBeFile()
         ->and(File::get($file))
         ->toContain('namespace PrestaShop\Module\ModuleTest\Controller\Admin;')
-        ->toContain('abstract class TestAbstractController extends FrameworkBundleAdminController')
-        ->toContain('\'route\' => \'test_form_route\'')
+        ->toContain('abstract class TestConfigAbstractController extends FrameworkBundleAdminController')
+        ->toContain('\'route\' => \'module_test_test_config\'')
         ->toContain('Modules.ModuleTest.Admin');
 });
 
 it('can generate form admin view', function () {
-    $file = getcwd().'/module-test/views/templates/admin/testForm.html.twig';
+    $file = getcwd().'/module-test/views/templates/admin/testConfigForm.html.twig';
     File::delete($file);
 
-    artisan(MakeFormAdminView::class, ['name' => 'test', '--force' => true])
+    artisan(MakeFormAdminView::class, ['name' => 'test config', '--force' => true])
         ->assertExitCode(Command::SUCCESS);
 
     expect($file)->toBeFile()
         ->and(
             File::get($file)
-        )->toContain('{{ form_start(testForm) }}')
+        )->toContain('{{ form_start(testConfigForm) }}')
         ->toContain('Modules.ModuleTest.Admin')
-        ->toContain('{{ form_widget(testForm) }}')
-        ->toContain('{{ form_end(testForm) }}');
+        ->toContain('{{ form_widget(testConfigForm) }}')
+        ->toContain('{{ form_end(testConfigForm) }}');
 });
 
 it('can generate a config form ', function () {

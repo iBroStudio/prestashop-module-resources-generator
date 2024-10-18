@@ -59,7 +59,7 @@ class MakeFormAdminController extends GeneratorCommand
     protected function getNameInput(): string
     {
         return Str::of(parent::getNameInput())
-            ->ucfirst()
+            ->studly()
             ->append('Controller')
             ->toString();
     }
@@ -90,7 +90,7 @@ class MakeFormAdminController extends GeneratorCommand
             [
                 $abstract_class,
                 $this->getModuleLowerSnake(),
-                $this->form_name.'_route',
+                $this->getModuleLowerSnake().'_'.Str::chopEnd($this->form_name, '_form'),
                 $this->form_name,
                 $this->getModuleInfos('name'),
                 Str::camel($this->form_name),
