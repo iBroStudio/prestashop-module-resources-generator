@@ -28,8 +28,10 @@ it('can generate form type', function () {
     expect($file)->toBeFile()
         ->and(File::get($file))
         ->toContain('namespace PrestaShop\Module\ModuleTest\Form;')
+        ->toContain('use PrestaShop\Module\ModuleTest\Config\ModuleTestConfig;')
         ->toContain('class TestConfigFormType extends TranslatorAwareType')
-        ->toContain("'Field label', 'Modules.ModuleTest.Admin'")
+        ->toContain('ModuleTestConfig::cases() as $field')
+        ->toContain('ModuleTestConfig::group(\'group_name\') as $field')
         ->and(
             $yaml->data()->get('services')['prestashop.module.module_test.form.type.test_config_form_type']
         )->toMatchArray([
@@ -57,8 +59,11 @@ it('can generate form data configuration', function () {
     expect($file)->toBeFile()
         ->and(File::get($file))
         ->toContain('namespace PrestaShop\Module\ModuleTest\Form;')
+        ->toContain('use PrestaShop\Module\ModuleTest\Config\ModuleTestConfig;')
         ->toContain('final class TestConfigFormDataConfiguration implements DataConfigurationInterface')
-        ->toContain('MODULE_TEST_KEY1')
+        ->toContain('return ModuleTestConfig::values();')
+        ->toContain('ModuleTestConfig::from($key)')
+        ->toContain('array_column(ModuleTestConfig::cases(), \'value\')')
         ->and(
             $yaml->data()->get('services')['prestashop.module.module_test.form.test_config_form_data_configuration']
         )->toMatchArray([

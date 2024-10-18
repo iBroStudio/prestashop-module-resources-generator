@@ -4,18 +4,17 @@ declare(strict_types=1);
 
 namespace {{ namespace }};
 
+use PrestaShop\Module\{{ ModuleName }}\Config\{{ ModuleName }}Config;
 use PrestaShopBundle\Form\Admin\Type\TranslatorAwareType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 class DummyClass extends TranslatorAwareType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $builder
-            ->add('field_name', TextType::class, [
-                'label' => $this->trans('Field label', 'Modules.{{ translation_domain }}.Admin'),
-                'help' => $this->trans('Maximum 32 characters', 'Modules.{{ translation_domain }}.Admin'),
-            ]);
+        foreach ({{ ModuleName }}Config::cases() as $field) { //foreach ({{ ModuleName }}Config::group('group_name') as $field) {
+            $field = $field->field();
+            $builder->add($field['child'], $field['type'], $field['options']);
+        }
     }
 }

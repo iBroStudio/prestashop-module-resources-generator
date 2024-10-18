@@ -62,8 +62,8 @@ class MakeFormDataConfiguration extends GeneratorCommand
         $stub = parent::replaceClass($stub, $name);
 
         return str_replace(
-            ['{{ MODULE_CONFIG }}'],
-            [$this->getModuleUpperSnake()],
+            ['{{ ModuleName }}'],
+            [$this->getModuleTranslationDomain()],
             $stub
         );
     }

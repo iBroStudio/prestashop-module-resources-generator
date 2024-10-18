@@ -66,7 +66,7 @@ class MakeFormType extends GeneratorCommand
         $stub = parent::replaceClass($stub, $name);
 
         return str_replace(
-            ['{{ translation_domain }}'],
+            ['{{ ModuleName }}'],
             [$this->getModuleTranslationDomain()],
             $stub
         );

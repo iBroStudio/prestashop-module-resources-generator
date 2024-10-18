@@ -32,7 +32,7 @@ class DummyClass extends {{ abstract_class }}
             'layoutTitle' => $this->trans('Page title', 'Modules.{{ translation_domain }}.Admin'),
             //'layoutHeaderToolbarBtn' => $this->getToolbarButtons(),
             //'headerTabContent' => $this->getHeaderTabs(),
-            '{{ form_key }}' => $form->createView()
+            '{{ form_key }}' => $form->createView(),
         ]);
     }
 }

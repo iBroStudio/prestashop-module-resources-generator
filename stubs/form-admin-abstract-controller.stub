@@ -21,13 +21,13 @@ abstract class DummyClass extends FrameworkBundleAdminController
 
         return '<ul class="nav nav-pills">'.
             implode('', array_map(function ($tab) use ($currentRoute) {
-                    return '
+                return '
                     <li class="nav-item">
-                        <a href="' . $this->generateUrl($tab['route']) .'" class="nav-link tab ' . ($currentRoute === $tab['route'] ? 'active current' : '') . '">
+                        <a href="'.$this->generateUrl($tab['route']).'" class="nav-link tab '.($currentRoute === $tab['route'] ? 'active current' : '').'">
                             '.$tab['label'].'
                         </a>
                     </li>';
-                }, $tabs)
+            }, $tabs)
             ).
         '</ul>';
     }
